@@ -5,6 +5,28 @@ describe User do
     Task.destroy_all
   end
 
+  describe '.auth_by(token:)' do
+    context 'with correct token' do
+      it 'finds user' do
+        correct_token = 'correct_token'
+        user = create(:user, token: correct_token)
+
+        founded_user = User.auth_by(token: correct_token)
+
+        expect(founded_user).to eq user
+      end
+    end
+    context 'with incorrect token' do
+      it 'rises AuthError' do
+        incorrect_token = 'incorrect_token'
+        create(:user, token: 'correct_token')
+
+        expect { User.auth_by(token: incorrect_token) }
+          .to raise_error(AuthError)
+      end
+    end
+  end
+
   describe '#assign_task' do
     context 'for Driver role' do
       it 'marks task as Assigned' do

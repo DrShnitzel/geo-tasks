@@ -11,9 +11,9 @@ class User
   index({ token: 1 }, unique: true)
 
   def self.auth_by(token:)
-    user = find_by(token: token)
-    raise AuthError unless user
-    user
+    find_by(token: token)
+  rescue Mongoid::Errors::DocumentNotFound
+    raise AuthError
   end
 
   def assign_task(task_id:)
