@@ -34,8 +34,8 @@ describe User do
         task = create(:task, status: 'New')
 
         user.assign_task(task_id: task.id)
-        task.reload
 
+        task.reload
         expect(task.status).to eq 'Assigned'
       end
 
@@ -44,8 +44,8 @@ describe User do
         task = create(:task, status: 'New')
 
         user.assign_task(task_id: task.id)
-        user.reload
 
+        user.reload
         expect(user.assigned_task).to eq task.id.to_s
       end
     end
@@ -94,6 +94,36 @@ describe User do
           user.create_task(pickup_location: [7, 5], delivery_location: [5, 1])
         end.to raise_error(PermissionDenied)
       end
+    end
+  end
+
+  describe '#complete_task' do
+    it 'marks task as Done' do
+      user = create(:user, role: 'Driver')
+      task = create(:task)
+      user.assign_task(task_id: task.id)
+
+      user.complete_task
+
+      task.reload
+      expect(task.status).to eq 'Done'
+    end
+    it 'allows Driver to pick a new task' do
+      user = create(:user, role: 'Driver')
+      task = create(:task)
+      another_task = create(:task)
+      user.assign_task(task_id: task.id)
+
+      user.complete_task
+      user.assign_task(task_id: another_task.id)
+
+      user.reload
+      expect(user.assigned_task).to eq another_task.id.to_s
+    end
+    it 'raises NoActiveTasks error if there is no task assigned to driver' do
+      user = create(:user, role: 'Driver')
+
+      expect { user.complete_task }.to raise_error(NoActiveTasks)
     end
   end
 end

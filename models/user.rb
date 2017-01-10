@@ -36,4 +36,14 @@ class User
       delivery_location: delivery_location
     )
   end
+
+  def complete_task
+    raise PermissionDenied unless role == 'Driver'
+    raise NoActiveTasks unless assigned_task
+    Task.where(_id: assigned_task).find_one_and_update(
+      '$set': { status: 'Done' }
+    )
+    self.assigned_task = nil
+    save
+  end
 end
