@@ -75,4 +75,25 @@ describe User do
         .to raise_error(HaveNotCompletedTask)
     end
   end
+
+  describe '#create_task' do
+    context 'for Manager role' do
+      it 'creates new task' do
+        user = create(:user, role: 'Manager')
+
+        expect do
+          user.create_task(pickup_location: [7, 5], delivery_location: [5, 1])
+        end.to change { Task.count }.from(0).to(1)
+      end
+    end
+    context 'for non Manager role' do
+      it 'raises PermissionDenied' do
+        user = create(:user, role: 'Driver')
+
+        expect do
+          user.create_task(pickup_location: [7, 5], delivery_location: [5, 1])
+        end.to raise_error(PermissionDenied)
+      end
+    end
+  end
 end

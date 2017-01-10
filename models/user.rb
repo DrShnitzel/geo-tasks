@@ -28,4 +28,12 @@ class User
     self.assigned_task = task.id
     save
   end
+
+  def create_task(pickup_location:, delivery_location:)
+    raise PermissionDenied unless role == 'Manager'
+    Task.create(
+      pickup_location: pickup_location,
+      delivery_location: delivery_location
+    )
+  end
 end
