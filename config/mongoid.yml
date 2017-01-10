@@ -1,0 +1,13 @@
+development:
+  clients:
+    default:
+      database: geo-tasks-development
+      hosts:
+        - localhost:27017
+
+test:
+  clients:
+    default:
+      database: geo-tasks-test
+      hosts:
+        - localhost:27017
