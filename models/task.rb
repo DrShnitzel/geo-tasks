@@ -11,4 +11,13 @@ class Task
   validates_inclusion_of :status, in: %w(New Assigned Done)
   validates_presence_of :pickup_location
   validates_presence_of :delivery_location
+
+  def self.tasks_nearby(location)
+    maximum_distance = 0.1
+    limit = 25
+    near(pickup_location: location)
+      .max_distance(pickup_location: maximum_distance)
+      .limit(limit)
+      .to_a
+  end
 end
