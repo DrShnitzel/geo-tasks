@@ -31,6 +31,10 @@ module GeoTasks
           halt 400, { error: msg }.to_json
         end
 
+        app.error ValidationError do
+          halt 400, { error: 'request parameters are not correct' }.to_json
+        end
+
         app.error do
           halt 500, {error: 'internal server error'}.to_json
         end
