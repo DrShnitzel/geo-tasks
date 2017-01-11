@@ -4,10 +4,13 @@
 
 ruby 2.3 or higher and mongoDB are required
 
-`rake setup` to seed the database and create indexes
+`rake db:create_indexes` to create indexes
 
-`rake server` to run server on 8080 port
+`RACK_ENV=test rake db:create_indexes` to create indexes for testing environment
 
+`rake db:seed` to add records to db
+
+`shotgun` to run the server
 
 ## Endpoints
 
