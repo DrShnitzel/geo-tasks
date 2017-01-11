@@ -36,7 +36,7 @@ module GeoTasks
         end
 
         app.error do
-          halt 500, {error: 'internal server error'}.to_json
+          halt 500, { error: 'internal server error' }.to_json
         end
       end
     end

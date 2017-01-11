@@ -22,11 +22,13 @@ class User
     # Make sure only one driver can pick a task, it's atomic operation
     task = Task.where(_id: task_id, status: 'New')
                .find_one_and_update(
-                 '$set': { status: 'Assigned', assigned_driver: id }
+                 { '$set': { status: 'Assigned', assigned_driver: id } },
+                 return_document: :after
                )
     raise AlreadyAssigned unless task
     self.assigned_task = task.id
     save
+    task
   end
 
   def create_task(pickup_location:, delivery_location:)
@@ -40,10 +42,11 @@ class User
   def complete_task
     raise PermissionDenied unless role == 'Driver'
     raise NoActiveTasks unless assigned_task
-    Task.where(_id: assigned_task).find_one_and_update(
-      '$set': { status: 'Done' }
+    task = Task.where(_id: assigned_task).find_one_and_update(
+      { '$set': { status: 'Done' } }, return_document: :after
     )
     self.assigned_task = nil
     save
+    task
   end
 end

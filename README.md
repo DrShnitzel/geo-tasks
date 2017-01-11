@@ -17,7 +17,7 @@ All API endpoints are working with json body (not form-data)
 
 _Manager can create tasks with two geo locations pickup and delivery_
 
-`POST /task `
+`POST /tasks `
 
 *body:*
 ``` javascript
@@ -76,7 +76,7 @@ _Driver can get list of tasks nearby (sorted by distance) by sending his current
 ### picking a task
 _Driver can pick one task from the list (the task becomes assigned)_
 
-`UPDATE /tasks/pick`
+`PUT /tasks/pick`
 
 ``` javascript
 {
@@ -98,7 +98,7 @@ _Driver can pick one task from the list (the task becomes assigned)_
 ### complete the task
 _Driver can complete picked task (the task becomes done)_
 
-`UPDATE /task/complete`
+`PUT /tasks/complete`
 
 ``` javascript
 {
