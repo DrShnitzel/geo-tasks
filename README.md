@@ -121,7 +121,16 @@ _Driver can complete picked task (the task becomes done)_
 `401 Unauthorized`
 ``` javascript
   {
-    "error": "Permission denied"
+    "error": "incorrect token"
+  }
+```
+_Cannot auth user with given token_
+
+
+`403 Forbidden`
+``` javascript
+  {
+    "error": "permission denied"
   }
 ```
 _User with current token cannot parform this action_
@@ -129,7 +138,23 @@ _User with current token cannot parform this action_
 `404 Not Found`
 ``` javascript
   {
-    "error": "Record not found"
+    "error": "route not found"
   }
 ```
-_Record not found_
+_Given route does not exist_
+
+`400`
+``` javascript
+  {
+    "error": "specific request error description"
+  }
+```
+_Specific request errors_
+
+`500`
+``` javascript
+  {
+    "error": "internal server error"
+  }
+```
+_Unexpected internal server error_

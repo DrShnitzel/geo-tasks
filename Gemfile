@@ -16,4 +16,5 @@ end
 
 group :test, :development do
   gem 'byebug'
+  gem 'shotgun'
 end
